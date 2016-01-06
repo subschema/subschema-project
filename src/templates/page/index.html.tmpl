@@ -1,0 +1,39 @@
+<!html>
+<html>
+<head>
+    <title>@title@</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script  charset="utf-8">
+    //react
+    @require('!raw!!react/dist/react.min.js')@
+
+    //react-dom
+    @require('!raw!!react-dom/dist/react-dom.min.js')@
+
+    //subschema
+    @require('!raw!!subschema/dist/subschema-noreact.js')@
+    </script>
+</head>
+<body>
+<h3>@project.title@</h3>
+<p>@sample.description@</p>
+<div id="content"></div>
+<code>
+@scripts.source.replace(/\/\*\*/, '**')@
+</code>
+<script>
+//So this adapts the require module from babel to the global libs.
+function require(module){
+       if (module === 'react') module = 'React';
+       if (module === 'react-dom') module = 'ReactDOM';
+       return window[module]
+}
+
+</script>
+<script  charset="utf-8">
+//This is a transpiled version of the script, you are better off using webpack and a transpiler like babel.
+@scripts.compiled@
+</script>
+</body>
+
+</html>
