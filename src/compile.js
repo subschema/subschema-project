@@ -16,7 +16,7 @@ const babelrc = {
         "stage-0"
     ],
     "plugins": [
-       "transform-decorators-legacy"
+        "transform-decorators-legacy"
     ]
 };
 
@@ -27,7 +27,7 @@ export function stringify(name, obj) {
     return `var ${name} = ${str};`;
 }
 
-export function source(managed, useData, useError, template=formTmpl) {
+export function source(managed, useData, useError, template = formTmpl) {
     var {schema, setup, setupTxt, props, data, errors} = managed;
     var valProps = {
         schema: schema,
@@ -55,12 +55,12 @@ export function source(managed, useData, useError, template=formTmpl) {
 
     var codeText = template ? template({
         setupTxt,
-        propStr:propStr.join(' '),
-        vars:vars.join('\n')
+        propStr: propStr.join(' '),
+        vars: vars.join('\n')
     }) : {
         setupTxt,
-        propStr:propStr.join(' '),
-        vars:vars.join('\n')
+        propStr: propStr.join(' '),
+        vars: vars.join('\n')
     };
     return codeText;
 
@@ -68,4 +68,9 @@ export function source(managed, useData, useError, template=formTmpl) {
 
 export function compile(src) {
     return transform(src, babelrc);
+}
+
+export function toFunc(transpiled) {
+    return new Function(['render', 'React', 'Subschema', 'loader', 'Form', 'ValueManager', 'document'], transpiled.code);
+
 }

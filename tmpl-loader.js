@@ -11,17 +11,18 @@ var template = require('lodash/string/template');
 var options = {
     interpolate: /@([\s\S]+?)@/g,
     escape: /@-([\s\S]+?)@/g,
-    imports: {
-        _: {
-            escape: function (value) {
-                return JSON.stringify(value, null, 2);
-            }
-        }
-    }
-}
+   // evaluate:/@~([\s\S]+?)@/g
+};
 
 module.exports = function (content) {
     this.cacheable && this.cacheable();
-    var tmpl = template(content, options);
+    var tmpl;
+    try {
+         tmpl = template(content, options);
+    }catch(e){
+        console.error(e);
+        throw e;
+    }
+    console.log('tmpl', tmpl.source);
     return 'var _ = { escape: function (value) {        return JSON.stringify(value, null, 2);} }; module.exports = ' + tmpl.source + ';';
-}
+};

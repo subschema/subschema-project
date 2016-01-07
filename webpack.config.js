@@ -31,7 +31,8 @@ var config = {
     },
     stats: {
         colors: true,
-        reasons: true
+        reasons: true,
+        info: true
     },
     module: {
         loaders: [

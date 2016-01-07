@@ -1,16 +1,17 @@
 import expect from 'expect';
 import {compile, source} from  '../src/compile';
-import ListenerPropertySetup from '!raw!!./fixtures/ListenerProperty-setup.js';
-import ListenerProperty from './fixtures/ListenerProperty.js';
+import fixtures from './fixtures';
 
 describe('compile', function () {
-
-    it('should compile an example', function () {
-        ListenerProperty.setupTxt = ListenerPropertySetup;
-        //schema = {}, setup = "", setupTxt = "", props = {}, data = {}, errors = {}
-        var src = source(ListenerProperty);
-
-        var transpiled = compile(src);
-        console.log(transpiled.code);
+    Object.keys(fixtures).forEach((key)=> {
+        it(`should compile form sample ${key} `, ()=> {
+            var {...setup} = fixtures[key];
+            if (setup.setupFile) {
+                setup.setupTxt = require('!raw!!./fixtures/' + setup.setupFile);
+            }
+            var src = source(setup);
+            var transpiled = compile(src);
+            expect(transpiled.code).toExist();
+        });
     });
 });

@@ -11,11 +11,11 @@ module.exports = {
             }
         },
     },
-    data: {
-        areYouSure: true
-    },
     props:{
         loader:true
+    },
+    data: {
+        areYouSure: true
     },
     setupFile: 'CustomType-setup.js'
 }
