@@ -25,7 +25,6 @@
     "css-loader": "^0.23.1",
     "expect": "^1.13.4",
     "file-loader": "^0.8.5",
-    "filesaver": "0.0.13",
     "json-loader": "^0.5.4",
     "jszip": "^2.5.0",
     "karma": "^0.13.17",
@@ -51,7 +50,6 @@
     "strip-json-comments-loader": "0.0.2",
     "style-loader": "^0.13.0",
     "subschema": "^0.53.1",
-    "underscore-template-loader": "^0.5.2",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0"

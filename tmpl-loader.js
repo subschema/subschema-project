@@ -20,9 +20,8 @@ module.exports = function (content) {
     try {
          tmpl = template(content, options);
     }catch(e){
-        console.error(e);
+        console.error(e, content);
         throw e;
     }
-    console.log('tmpl', tmpl.source);
     return 'var _ = { escape: function (value) {        return JSON.stringify(value, null, 2);} }; module.exports = ' + tmpl.source + ';';
 };

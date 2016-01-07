@@ -102,7 +102,7 @@ describe('samples', function () {
     describe('project', function () {
         Object.keys(fixtures).forEach((key)=> {
             it(`should create project ${key}`, ()=> {
-                var blob = generate.project(data(fixtures[key]), void(0), 'base64');
+                var blob = generate.project(data(fixtures[key]), 'base64');
                 expect(blob).toExist();
 
                 var unzip = new JSZip(blob, {base64: true});

@@ -3,7 +3,7 @@
 import indexTmpl from './page/index.html.tmpl';
 import {source, compile} from '../compile';
 
-export default function (data, keys, type = "blob") {
+export default function (data, type = "blob") {
 
     var scripts = data.scripts || (data.scripts = {});
     var src = scripts.source = `
