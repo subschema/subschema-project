@@ -27,7 +27,7 @@
     "file-loader": "^0.8.5",
     "json-loader": "^0.5.4",
     "jszip": "^2.5.0",
-    "karma": "^0.13.17",
+    "karma": "^0.13.19",
     "karma-chrome-launcher": "^0.2.2",
     "karma-firefox-launcher": "^0.1.7",
     "karma-mocha": "^0.2.1",
