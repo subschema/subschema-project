@@ -52,6 +52,7 @@ var config = {
                 include: [
                     join('src'),
                     join('public'),
+                    join('samples'),
                     join('test')
                 ]
             },

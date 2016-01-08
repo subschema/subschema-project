@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import fixtures from './fixtures';
+import fixtures from '../samples';
 import generate from '../src/templates';
 import {compile, source} from '../src/compile';
 import project from '../src/templates/project/index';
@@ -45,7 +45,7 @@ function data(fix) {
     var {setupFile, ...sample} = fix;
 
     if (setupFile) {
-        sample.setupTxt = require('!!raw!./fixtures/' + setupFile);
+        sample.setupTxt = require('!!raw!../samples/' + setupFile);
     }
 
     return {

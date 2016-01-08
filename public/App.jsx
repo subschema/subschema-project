@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import Subschema, {loader, ValueManager, Form} from 'Subschema';
 import projectLoader from 'subschema-project';
 import JSONArea from './JSONArea';
-import ListenerProperty from '../test/fixtures/ListenerProperty';
+import ListenerProperty from '../samples/ListenerProperty';
 import ListenerPropertySetup from '!!raw!../test/fixtures/ListenerProperty-setup';
 
 ListenerProperty.setupTxt = ListenerPropertySetup;
