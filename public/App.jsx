@@ -1,27 +1,43 @@
 "use strict";
 import React, {Component} from 'react';
 import Subschema, {loader, ValueManager, Form} from 'Subschema';
-import projectLoader from 'subschema-project';
 import JSONArea from './JSONArea';
-import ListenerProperty from '../samples/ListenerProperty';
-import ListenerPropertySetup from '!!raw!../test/fixtures/ListenerProperty-setup';
+import samples from '../samples';
+import camelCase from 'lodash/string/camelCase';
+import kebabCase from 'lodash/string/kebabCase';
 
-ListenerProperty.setupTxt = ListenerPropertySetup;
 
-loader.addLoader(projectLoader);
+/*import projectLoader from 'subschema-project';
+ loader.addLoader(projectLoader);*/
 loader.addType({JSONArea})
 //A simple Schema for this configuration
 var schema = {
     schema: {
-        schema: {
-            type: 'Object'
+        samples: {
+            type: 'Select',
+            options: Object.keys(samples),
+            placeholder: 'Custom Project'
         },
-        title: {
-            type: 'Text'
+        jsName: {
+            type: "Text",
+            help: 'A javascript friendly version of your project name'
         },
-        demo: {
-            type: 'Text'
+        project: {
+            type: 'Object',
+            subSchema: {
+                schema: {
+                    name: {
+                        type: 'Text',
+                        help: "NPM package name"
+                    },
+                    version: {
+                        type: 'Text',
+                        help: "NPM pacakge version"
+                    }
+                }
+            }
         },
+
         sample: {
             type: 'Object',
             subSchema: {
@@ -36,28 +52,31 @@ var schema = {
                 }
             }
         },
-        project: {
-            type: 'Object',
-            subSchema: {
-                schema: {
-                    name: {
-                        type: 'Text'
-                    }
-                }
-            }
-        },
-        download: {
-            type: 'Download',
-            downloadAs: 'project',
-            help: 'Download as a project (.zip)'
-        },
-        page: {
-            type: 'Download',
-            downloadAs: 'page',
-            help: 'Download as a project (.html)'
-        }
-    }
-}
+        /*        download: {
+         type: 'Download',
+         downloadAs: 'project',
+         help: 'Download as a project (.zip)'
+         },
+         page: {
+         type: 'Download',
+         downloadAs: 'page',
+         help: 'Download as a project (.html)'
+         }*/
+    },
+    fieldsets: [{
+        fields: ['samples', 'jsName', 'project', 'sample'],
+        buttons: [
+            {
+                label: 'Page',
+                className: 'btn',
+                action: 'page'
+            }, {
+                label: 'Project',
+                className: 'btn',
+                action: 'project'
+            }]
+    }]
+};
 
 var valueManager = ValueManager({
     schema: {},
@@ -67,15 +86,41 @@ var valueManager = ValueManager({
     project: {
         name: 'hello'
     },
-    sample: ListenerProperty
+    samples: 'Basic'
 });
 
+valueManager.addListener('samples', function (value) {
+    var sample = samples[value];
+    if (!sample) {
+        sample = {
+            schema: {},
+            sampleTxt: '',
+            props: null,
+            data:{},
+            errors:{}
+        }
+    }
+    if (sample.setupFile) {
+        this.update('sample.setupTxt', require('!!raw!../samples/' + sample.setupFile));
+    }
+    this.update('jsName', value);
+    this.update('project.name', 'example-' + kebabCase(sample.name || value));
+    this.update('project.description', sample.description);
+    this.update('project.version', '1.0.0');
+    Object.keys(sample).forEach(k=>this.update(`sample.${k}`, sample[k]));
+
+}, valueManager, true);
+
 export default class App extends Component {
+    handleBtnClick = (e, action)=> {
+        e && e.preventDefault();
+        console.log('action', e.action);
+    }
 
     render() {
         return <div>
             <h3>Subschema Project Setup</h3>
-            <Form schema={schema} loader={loader} valueManager={valueManager}/>
+            <Form schema={schema} loader={loader} valueManager={valueManager} onButtonClick={this.handleBtnClick}/>
         </div>
     }
 }

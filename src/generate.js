@@ -62,6 +62,9 @@ export default function generate(data, template, type) {
         {
             var c;
             template(function (filename, content, options) {
+                if (c != null) {
+                    throw new Error('Can not write more than one file to a string, try zip');
+                }
                 c = content;
             }, data);
             return c;
