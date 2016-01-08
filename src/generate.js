@@ -3,7 +3,7 @@
 import templates from './templates';
 import JSZip from 'jszip';
 /**
- * Executes the template with the particular type.
+ * Executes the template with the particular type and returns the output.
  *
  * base64 (default) : the result will be a string, the binary in a base64 form.
  string : the result will be a string in "binary" form, using 1 byte per char (2 bytes).
@@ -23,6 +23,9 @@ export default function generate(data, template, type) {
     if (!template) {
         throw new Error('Must provide a template!');
     }
+    if (!type){
+        throw new Error('No output type given');
+    }
     switch (type) {
         case 'zip-base64':
         case 'zip-string':
@@ -32,7 +35,7 @@ export default function generate(data, template, type) {
         case 'zip-nodebuffer':
         case 'zip':
         {
-            var type = type.split('-')[1] || 'base64';
+            type = type.split('-')[1] || 'base64';
             var zip = new JSZip();
             template(zip.file.bind(zip), data);
             return zip.generate({type})
@@ -57,9 +60,6 @@ export default function generate(data, template, type) {
         }
         case 'string':
         {
-            if (type == null) {
-
-            }
             var c;
             template(function (filename, content, options) {
                 c = content;
