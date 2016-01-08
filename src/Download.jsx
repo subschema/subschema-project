@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import JSZip from 'jszip';
 import {saveAs} from 'browser-filesaver';
-import generate from './templates';
+import generate from './generate';
 import {PropTypes} from 'Subschema';
 
 
@@ -43,7 +43,7 @@ export default class Download extends Component {
             fileName = `${fileName}.${ext}`;
         }
         try {
-            var blob = generate[downloadAs](data);
+            var blob = generate(data, downloadAs, ext + '-blob');
             saveAs(blob, fileName);
         } catch (e) {
             console.log('error saving', e);

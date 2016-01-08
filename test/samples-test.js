@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import fixtures from '../samples';
-import generate from '../src/templates';
+import generate from '../src/generate';
 import {compile, source} from '../src/compile';
 import project from '../src/templates/project/index';
 import expect from 'expect';
@@ -76,12 +76,12 @@ describe('samples', function () {
         Object.keys(fixtures).forEach((key)=> {
             var ds = data(fixtures[key]);
 
-            it(`should render page ${key}`, ()=> {
-                var blob = generate.page(ds, null, 'text');
+            it(`should render "${key}"`, ()=> {
+                var blob = generate(ds, 'page', 'string');
                 expect(blob).toExist();
             });
 
-            it(`should ${key} should exec`, function () {
+            it(`should execute "${key}"`, function () {
                 var src = compile(source(ds.sample)).code;
 
                 var f = new Function(['render', 'React', 'Subschema', 'loader', 'Form', 'ValueManager', 'document'], src);
@@ -101,8 +101,8 @@ describe('samples', function () {
     });
     describe('project', function () {
         Object.keys(fixtures).forEach((key)=> {
-            it(`should create project ${key}`, ()=> {
-                var blob = generate.project(data(fixtures[key]), 'base64');
+            it(`should create "${key}"`, ()=> {
+                var blob = generate(data(fixtures[key]), 'project', 'zip-base64');
                 expect(blob).toExist();
 
                 var unzip = new JSZip(blob, {base64: true});

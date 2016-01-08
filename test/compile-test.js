@@ -4,7 +4,7 @@ import fixtures from '../samples';
 
 describe('compile', function () {
     Object.keys(fixtures).forEach((key)=> {
-        it(`should compile form sample ${key} `, ()=> {
+        it(`should compile form sample "${key}" `, ()=> {
             var {...setup} = fixtures[key];
             if (setup.setupFile) {
                 setup.setupTxt = require('!raw!!../samples/' + setup.setupFile);

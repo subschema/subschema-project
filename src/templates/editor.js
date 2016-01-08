@@ -3,7 +3,7 @@
 import indexTmpl from './page/index.html.tmpl';
 import {source, compile} from '../compile';
 
-export default function (data,  type = "blob") {
+export default function (writeFile, data) {
 
     var scripts = data.scripts || (data.scripts = {});
     var form = source(data.sample, data.useData, data.useError, null);
@@ -23,6 +23,5 @@ ${data.setupTxt}
 return <Form ${form.propStr}/>;
 })();
 `;
-    return compile(src).code;
-    return type === "blob" ? new Blob([content], {type: "text/html;charset=utf-8"}) : content;
+    writeFile(null, compile(src).code);
 }

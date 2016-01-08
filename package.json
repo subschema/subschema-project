@@ -8,6 +8,9 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
+  "bin": {
+    "project": "bin/project.js"
+  },
   "devDependencies": {
     "autoprefixer-loader": "^3.1.0",
     "babel-core": "^6.3.26",
@@ -61,6 +64,7 @@
     "hot": "NODE_ENV=development webpack-dev-server --hot --inline --config ./webpack.config.js --entry ./public/index.jsx --output-filename=app.entry.js",
     "demo": "NODE_ENV=production webpack -p --output-path .build --entry ./public/index.jsx --output-filename=app.[hash].js --config ./webpack.config.js",
     "dist": "NODE_ENV=production webpack --display-modules -p --output-path dist --entry ./src/index.js --output-library-target=umd --output-library-name GSuggests --output-filename=index.js --config ./webpack.config.js",
+    "cli": "NODE_ENV=production webpack --target node --display-modules --output-path bin --entry ./src/command.js --output-filename=project.js --config ./webpack.config.js",
     "prepublish": "npm run test-dist"
   },
   "author": "Justin Spears",

@@ -1,15 +1,13 @@
 "use strict";
 
-import JSZip from 'jszip';
 import templates from './project/index';
 import {source} from '../compile';
 
-export default function (data, type = "blob") {
-    var zip = new JSZip(), scripts = data.scripts || (data.scripts = {});
+export default function (writeFile, data, type = "blob") {
+    var scripts = data.scripts || (data.scripts = {});
     scripts.form = source(data.sample, data.useData, data.useError, null);
-    Object.keys(templates).forEach(function (key) {
+    return Promise.all(Object.keys(templates).map(function (key) {
         var content = templates[key](data)
-        zip.file(key, content);
-    });
-    return zip.generate({type});
+        return writeFile(key, content);
+    }));
 }
