@@ -59,8 +59,7 @@ describe.only('App', function () {
         var select = withTag(app, 'select')[0];
         var options = withTag(app, 'option').map(v=>v.value);
 
-//        options
-        ['Autocomplete'].forEach(function (value) {
+        options.forEach(function (value) {
             it(`should change the option  ${value}`, function () {
                 change(select, {
                     target: {
