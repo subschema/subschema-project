@@ -57,9 +57,12 @@ describe.only('App', function () {
         var app = into(<App saveAs={saveAs}/>, true);
         var buttons = withTag(app, 'button');
         var select = withTag(app, 'select')[0];
-        var options = withTag(app, 'option').map(v=>v.value);
-
-        options.forEach(function (value) {
+        var options = withTag(app, 'option');
+            options.shift();
+//        options
+        //[{value: 'Autocomplete'}]
+            options.forEach(function (opt) {
+            const value = opt.value;
             it(`should change the option  ${value}`, function () {
                 change(select, {
                     target: {
@@ -79,21 +82,18 @@ describe.only('App', function () {
                 var err;
                 other.onerror = function (e) {
                     console.log('errror for ', value, e);
-                    err = e;
+                    err = new Error(e);
                     done(err);
-                }
-
+                };
                 other.addEventListener("DOMContentLoaded", (e)=> {
                     console.log('content loaded for ', value, e);
                     setTimeout(()=> {
                         if (!err) {
                             other.close();
-                        } else {
                             done();
                         }
                     }, 500);
                 }, false);
-
 
             });
         });

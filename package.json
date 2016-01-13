@@ -51,7 +51,7 @@
     "strip-json-comments": "^2.0.0",
     "strip-json-comments-loader": "0.0.2",
     "style-loader": "^0.13.0",
-    "subschema": "^0.53.1",
+    "subschema": "^0.54.0",
     "subschema-test-support": "git+https://github.com/subschema/subschema-test-support.git",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.9",
@@ -60,12 +60,10 @@
   "scripts": {
     "karma": "NODE_ENV=test karma start --no-single-run --colors --auto-watch",
     "test": "NODE_ENV=test karma start --single-run --browsers Firefox",
-    "test-dist": "npm run dist && NODE_ENV=test karma start --single-run --browsers Firefox",
     "hot": "NODE_ENV=development webpack-dev-server --hot --inline --config ./webpack.config.js --entry ./public/index.jsx --output-filename=app.entry.js",
     "demo": "NODE_ENV=production webpack -p --output-path .build --entry ./public/index.jsx --output-filename=app.[hash].js --config ./webpack.config.js",
-    "dist": "NODE_ENV=production webpack --display-modules -p --output-path dist --entry ./src/index.js --output-library-target=umd --output-library-name GSuggests --output-filename=index.js --config ./webpack.config.js",
     "cli": "NODE_ENV=production webpack --target node --display-modules --output-path bin --entry ./src/command.js --output-filename=project.js --config ./webpack.config.js",
-    "prepublish": "npm run test-dist"
+    "prepublish": "npm run test"
   },
   "author": "Justin Spears",
   "license": "ISC"
