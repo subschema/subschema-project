@@ -45,7 +45,10 @@ var schema = {
                 schema: {
                     description: 'Text',
                     schema: 'JSONArea',
-                    props: 'JSONArea',
+                    props: {
+                        type:'JSONArea',
+                        name:'sample_props'
+                    },
                     data: 'JSONArea',
                     errors: 'JSONArea',
                     setupFile: 'Text',
@@ -57,6 +60,7 @@ var schema = {
     fieldsets: [{
         fields: ['samples', 'jsName', 'project', 'sample'],
         buttons: [
+
             {
                 label: 'Page',
                 className: 'btn',
@@ -65,6 +69,10 @@ var schema = {
                 label: 'Project',
                 className: 'btn',
                 action: 'project'
+            }, {
+                label: 'Open Page',
+                className: 'btn',
+                action: 'page-open'
             }]
     }]
 };
@@ -92,12 +100,13 @@ valueManager.addListener('samples', function (value) {
             description: ''
         }
     }
+    var {...copy } = sample;
     this.update('sample', null);
     this.update('jsName', value);
-    this.update('project.name', 'example-' + kebabCase(sample.name || value));
-    this.update('project.description', sample.description);
+    this.update('project.name', 'example-' + kebabCase(copy.name || value));
+    this.update('project.description', copy.description);
     this.update('project.version', '1.0.0');
-    Object.keys(sample).forEach(k=>this.update(`sample.${k}`, sample[k]));
+    Object.keys(copy).forEach(k=>this.update(`sample.${k}`, copy[k]));
 
 }, valueManager, true);
 
@@ -112,8 +121,13 @@ export default class App extends Component {
         var ext = action === 'project' ? 'zip' : 'html';
         var filename = valueManager.path('project.name');
         filename = `${filename}.${ext}`;
+        var blob = generate(valueManager.getValue(), action == 'project' ? 'project' : 'page', type)
+        if (action === 'page-open') {
+            var url = URL.createObjectURL(blob), other = window.open(url);
+            return;
+        }
         try {
-            this.props.saveAs(generate(valueManager.getValue(), action, type), filename);
+            this.props.saveAs(blob, filename);
         } catch (err) {
             console.log(err);
             alert('Error saving ' + err.message);

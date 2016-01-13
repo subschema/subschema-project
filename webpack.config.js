@@ -25,7 +25,8 @@ var config = {
             alias: {
                 'fbjs': join('node_modules/fbjs'),
                 'react': join('node_modules/react'),
-                'Subschema': join('node_modules/subschema/dist/subschema-noreact.js'),
+                'Subschema': join('node_modules/subschema/src'),
+                'subschema-styles': join('node_modules/subschema/src/styles'),
                 'subschema-project': isTestDist ? join('dist/index.js') : join('src/index.js')
             }
         },
@@ -46,13 +47,15 @@ var config = {
 
                 {
                     test: /\.jsx?$/,
-                    exclude: /node_modules\/(?!(component-playground|subschema-test-support))/,
                //do this to prevent babel from translating everything.
                     loader: 'babel',
                     include: [
                         join('src'),
                         join('public'),
                         join('samples'),
+                        join('node_modules/component-playground/src'),
+                        join('node_modules/subschema/src'),
+
                         join('test')
                     ]
                 },
