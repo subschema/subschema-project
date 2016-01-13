@@ -1,11 +1,12 @@
 "use strict";
 import React, {Component} from 'react';
-import Subschema, {loader, ValueManager, Form} from 'Subschema';
+import Subschema, {loader, ValueManager,PropTypes, Form} from 'Subschema';
 import JSONArea from './JSONArea';
-import samples from '../samples';
+import samples from 'subschema-test-support/samples';
 import camelCase from 'lodash/string/camelCase';
 import kebabCase from 'lodash/string/kebabCase';
-
+import generate from '../src/generate';
+import {saveAs} from 'browser-filesaver';
 
 /*import projectLoader from 'subschema-project';
  loader.addLoader(projectLoader);*/
@@ -51,17 +52,7 @@ var schema = {
                     setupTxt: 'TextArea'
                 }
             }
-        },
-        /*        download: {
-         type: 'Download',
-         downloadAs: 'project',
-         help: 'Download as a project (.zip)'
-         },
-         page: {
-         type: 'Download',
-         downloadAs: 'page',
-         help: 'Download as a project (.html)'
-         }*/
+        }
     },
     fieldsets: [{
         fields: ['samples', 'jsName', 'project', 'sample'],
@@ -94,15 +85,14 @@ valueManager.addListener('samples', function (value) {
     if (!sample) {
         sample = {
             schema: {},
-            sampleTxt: '',
+            setupTxt: '',
             props: null,
-            data:{},
-            errors:{}
+            data: {},
+            errors: {},
+            description: ''
         }
     }
-    if (sample.setupFile) {
-        this.update('sample.setupTxt', require('!!raw!../samples/' + sample.setupFile));
-    }
+    this.update('sample', null);
     this.update('jsName', value);
     this.update('project.name', 'example-' + kebabCase(sample.name || value));
     this.update('project.description', sample.description);
@@ -112,10 +102,23 @@ valueManager.addListener('samples', function (value) {
 }, valueManager, true);
 
 export default class App extends Component {
+    static defaultProps = {
+        saveAs: saveAs
+    }
     handleBtnClick = (e, action)=> {
         e && e.preventDefault();
         console.log('action', e.action);
-    }
+        var type = action === 'project' ? 'zip-blob' : 'html-blob';
+        var ext = action === 'project' ? 'zip' : 'html';
+        var filename = valueManager.path('project.name');
+        filename = `${filename}.${ext}`;
+        try {
+            this.props.saveAs(generate(valueManager.getValue(), action, type), filename);
+        } catch (err) {
+            console.log(err);
+            alert('Error saving ' + err.message);
+        }
+    };
 
     render() {
         return <div>

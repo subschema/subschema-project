@@ -1,5 +1,5 @@
 import React from 'react';
-import fixtures from '../samples';
+import fixtures from 'subschema-test-support/samples';
 import generate from '../src/generate';
 import {compile, source} from '../src/compile';
 import project from '../src/templates/project/index';

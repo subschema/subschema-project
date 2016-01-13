@@ -11,74 +11,93 @@ var isKarma = process.env['NODE_ENV'] === 'test';
 var isTestDist = lifecycle === 'test-dist';
 
 var config = {
-    devtool: (isPrepublish ? '#source-map' : "#inline-source-map"),
-    devServer: {
-        noInfo: true,
-        hot: true,
-        inline: true,
-        contentBase: join('public'),
-        publicPath: '/',
-        port: 8082
-    },
-    resolve: {
-        extensions: ['', '.jsx', '.js'],
-        alias: {
-            'fbjs': join('node_modules/fbjs'),
-            'react': join('node_modules/react'),
-            'Subschema': join('node_modules/subschema/dist/subschema-noreact.js'),
-            'subschema-project': isTestDist ? join('dist/index.js') : join('src/index.js')
-        }
-    },
-    stats: {
-        colors: true,
-        reasons: true,
-        info: true
-    },
-    module: {
-        loaders: [
-            {
-                test: /\.tmpl$/,
-                loader: join('tmpl-loader'),
-                include: [
-                    join('src')
-                ]
-            },
+        devtool: (isPrepublish ? '#source-map' : "#inline-source-map"),
+        devServer: {
+            noInfo: true,
+            hot: true,
+            inline: true,
+            contentBase: join('public'),
+            publicPath: '/',
+            port: 8082
+        },
+        resolve: {
+            extensions: ['', '.jsx', '.js'],
+            alias: {
+                'fbjs': join('node_modules/fbjs'),
+                'react': join('node_modules/react'),
+                'Subschema': join('node_modules/subschema/dist/subschema-noreact.js'),
+                'subschema-project': isTestDist ? join('dist/index.js') : join('src/index.js')
+            }
+        },
+        stats: {
+            colors: true,
+            reasons: true,
+            info: true
+        },
+        module: {
+            loaders: [
+                {
+                    test: /\.tmpl$/,
+                    loader: join('tmpl-loader'),
+                    include: [
+                        join('src')
+                    ]
+                },
 
-            {
-                test: /\.jsx?$/,
-                exclude: /node_modules/,
-                //do this to prevent babel from translating everything.
-                loader: 'babel',
-                include: [
-                    join('src'),
-                    join('public'),
-                    join('samples'),
-                    join('test')
-                ]
-            },
-            {test: /\.(png|jpe?g|mpe?g[34]?|gif)$/, loader: 'url-loader?limit=100000'},
-            {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff"},
-            {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream"},
-            {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file"},
-            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml"},
-            {
-                test: /\.json$/,
-                loader: 'json'
-            },
-            {
-                test: /\.css$/,
-                loader: 'style!css!' + AUTOPREFIXER_LOADER
-            },
-            {
-                test: /\.less$/,
-                loader: 'style!css!less!' + AUTOPREFIXER_LOADER
-            }]
+                {
+                    test: /\.jsx?$/,
+                    exclude: /node_modules\/(?!(component-playground|subschema-test-support))/,
+               //do this to prevent babel from translating everything.
+                    loader: 'babel',
+                    include: [
+                        join('src'),
+                        join('public'),
+                        join('samples'),
+                        join('test')
+                    ]
+                },
+                {
+                    test: /\.(png|jpe?g|mpe?g[34]?|gif)$/, loader: 'url-loader?limit=100000'
+                }
+                ,
+                {
+                    test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff"
+                }
+                ,
+                {
+                    test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream"
+                }
+                ,
+                {
+                    test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file"
+                }
+                ,
+                {
+                    test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml"
+                }
+                ,
+                {
+                    test: /\.json$/,
+                    loader: 'json'
+                }
+                ,
+                {
+                    test: /\.css$/,
+                    loader: 'style!css!' + AUTOPREFIXER_LOADER
+                }
+                ,
+                {
+                    test: /\.less$/,
+                    loader: 'style!css!less!' + AUTOPREFIXER_LOADER
+                }
+            ]
 
-    },
-    externals: (isPrepublish ? [{
-        'react': true,
-        'Subschema': true
-    }] : null)
-};
+        },
+        externals: (isPrepublish ? [{
+            'react': true,
+            'Subschema': true
+        }] : null)
+    }
+    ;
 
 module.exports = config;

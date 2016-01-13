@@ -2,7 +2,7 @@
 import React,{Component} from 'react';
 import ReactDOM, {render} from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import samples from '../samples';
+import samples from 'subschema-test-support/samples';
 import Subschema, {loaderFactory, DefaultLoader, ValueManager, decorators, Form} from 'Subschema';
 import {compile, source} from '../src/compile';
 import expect from 'expect';
@@ -81,15 +81,6 @@ export function setupData(fix) {
         sample
     }
 }
-//initialize samples
-((samples)=> {
-    Object.keys(samples).forEach(sample=> {
-        sample = samples[sample];
-        if (sample && sample.setupFile) {
-            sample.setupTxt = require('!!raw!../samples/' + sample.setupFile);
-        }
-    })
-})(samples);
 
 export default {
     into,

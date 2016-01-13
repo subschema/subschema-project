@@ -1,7 +1,7 @@
 <!html>
 <html>
 <head>
-    <title>@title@</title>
+    <title>@jsName@ Sample</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <script src="https://fb.me/react-0.14.6.js"></script>
     <script src="https://fb.me/react-dom-0.14.6.js"></script>
@@ -11,14 +11,18 @@
     </script>
 </head>
 <body>
-<h3>@project.title@</h3>
+<div class='container'>
+<h3>@project.name@</h3>
 <p>@sample.description@</p>
 <div id="content"></div>
-<code>
-@scripts.source.replace(/\/\*\*/, '**')@
-</code>
+<pre>
+//This code needs to be transpiled to actually work.
+@scripts.source.replace(/</g, '&lt;')@
+</pre>
+</div>
 <script>
 //So this adapts the require module from babel to the global libs.
+//If your using a transpiler you wouldn't need this.
 function require(module){
        if (module === 'react') module = 'React';
        if (module === 'react-dom') module = 'ReactDOM';
