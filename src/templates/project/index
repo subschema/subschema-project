@@ -5,6 +5,5 @@ module.exports = ctx.keys().reduce(function(obj, key){
     if (path !== 'index'){
        obj[path] = ctx(key);
     }
-    console.log('obj', obj);
     return obj;
 }, {});
