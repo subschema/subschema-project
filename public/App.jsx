@@ -51,7 +51,6 @@ var schema = {
                     },
                     data: 'JSONArea',
                     errors: 'JSONArea',
-                    setupFile: 'Text',
                     setupTxt: 'TextArea'
                 }
             }
