@@ -121,6 +121,7 @@ export default class App extends Component {
         var ext = action === 'project' ? 'zip' : 'html';
         var filename = valueManager.path('project.name');
         filename = `${filename}.${ext}`;
+
         var blob = generate(valueManager.getValue(), action == 'project' ? 'project' : 'page', type)
         if (action === 'page-open') {
             var url = URL.createObjectURL(blob), other = window.open(url);
