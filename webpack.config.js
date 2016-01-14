@@ -6,7 +6,7 @@ var AUTOPREFIXER_LOADER = 'autoprefixer-loader?{browsers:[' +
     '"Explorer >= 8", "iOS >= 6", "Opera >= 12", "Safari >= 6"]}';
 
 var lifecycle = process.env['npm_lifecycle_event'];
-var isPrepublish = lifecycle === 'prepublish';
+var isPrepublish = lifecycle === 'prepublish' || lifecycle === 'dist';
 var isKarma = process.env['NODE_ENV'] === 'test';
 var isTestDist = lifecycle === 'test-dist';
 
@@ -25,6 +25,7 @@ var config = {
             alias: {
                 'fbjs': join('node_modules/fbjs'),
                 'react': join('node_modules/react'),
+                'react-dom':join('node_modules/react-dom'),
                 'Subschema': join('node_modules/subschema/src'),
                 'subschema-styles': join('node_modules/subschema/src/styles'),
                 'subschema-project': isTestDist ? join('dist/index.js') : join('src/index.js')
@@ -97,8 +98,12 @@ var config = {
 
         },
         externals: (isPrepublish ? [{
-            'react': true,
-            'Subschema': true
+            'react': 'React',
+            'react-dom':'ReactDOM',
+            'Subschema': 'Subschema',
+            'subschema': 'Subschema',
+            'subschema-styles':true,
+            'babel-standalone':true
         }] : null)
     }
     ;

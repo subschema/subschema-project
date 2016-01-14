@@ -18,13 +18,14 @@ describe('App', function () {
         b = blob;
         f = filename;
     }
-    before(function(){
-    app = into(<App saveAs={saveAs}/>, true);
-    buttons = withTag(app, 'button');
-    select = withTag(app, 'select')[0];
-    options = withTag(app, 'option');
-    options.shift();
-    })
+
+    before(function () {
+        app = into(<App saveAs={saveAs}/>, true);
+        buttons = withTag(app, 'button');
+        select = withTag(app, 'select')[0];
+        options = withTag(app, 'option');
+        options.shift();
+    });
     options.forEach(function (opt) {
         const value = opt.value;
         it(`should change the option  ${value}`, function () {

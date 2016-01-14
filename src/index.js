@@ -1,11 +1,6 @@
 "use strict";
-import {loaderFactory} from 'Subschema';
-import Download from './Download';
+import generate from './generate';
 
-var loader = loaderFactory();
-
-loader.addType({
-    Download
-});
-
-export default loader;
+export {
+    generate
+};

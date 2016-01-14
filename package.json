@@ -64,7 +64,8 @@
     "hot": "NODE_ENV=development webpack-dev-server --hot --inline --config ./webpack.config.js --entry ./public/index.jsx --output-filename=app.entry.js",
     "demo": "NODE_ENV=production webpack -p --output-path .build --entry ./public/index.jsx --output-filename=app.[hash].js --config ./webpack.config.js",
     "cli": "NODE_ENV=production webpack --target node --display-modules --output-path bin --entry ./src/command.js --output-filename=project.js --config ./webpack.config.js",
-    "prepublish": "npm run test"
+    "dist": "NODE_ENV=production webpack  --display-reasons --display-modules --json -p --output-path dist --entry ./src/index.js --output-library-target=umd --output-library-name SubschemaProject --output-filename=index.js --config ./webpack.config.js",
+    "prepublish": "npm run test && npm run dist"
   },
   "author": "Justin Spears",
   "license": "ISC"

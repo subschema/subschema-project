@@ -1,7 +1,6 @@
 "use strict";
 
 import ReactDom from "react-dom";
-import ReactDOMServer from "react-dom/server";
 import Babel, {availablePlugins, transform} from "babel-standalone";
 import {tutils} from 'Subschema';
 import transformLegacy from "babel-plugin-transform-decorators-legacy";
