@@ -9,7 +9,7 @@ Or run it
 
 ```sh
   git clone @project.repository@
-  cd subschema-image
+  cd @project.name@
   npm install
   npm run hot &
   open http://localhost:8082
@@ -17,7 +17,7 @@ Or run it
 
 ##Installation
 ```sh
- $ npm install subschema-image
+ $ npm install @project.name@
 ``
 
 ##Usage
@@ -27,7 +27,7 @@ Or run it
  import Subschema, {loader, Form} from 'Subschema';
  import @jsName@ from '@project.name@';
  
- loader.addLoader(imageloader);
+ loader.addLoader(@jsName@);
  
  //A simple Schema for this demo.
  var schema = @-schema@
