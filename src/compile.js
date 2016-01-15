@@ -22,7 +22,7 @@ const babelrc = {
 
 export function stringify(name, obj) {
 
-    var str = !obj ? 'null' : typeof obj === 'string' ? obj : JSON.stringify(obj, null, '\t');
+    var str = obj == null ? 'null' : JSON.stringify(obj, null, '\t');
     return `var ${name} = ${str};`;
 }
 

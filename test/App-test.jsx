@@ -2,13 +2,11 @@ import React, {DOM} from 'react';
 import App from '../public/App.jsx';
 import expect from 'expect';
 import support, {into} from './support';
-import TestUtils, {scryRenderedComponentsWithType as withType, scryRenderedDOMComponentsWithTag as _withTag, Simulate} from 'react-addons-test-utils';
+import samples from 'subschema-test-support/samples';
+import TestUtils, {scryRenderedComponentsWithType as withType, scryRenderedDOMComponentsWithTag as withTag, Simulate} from 'react-addons-test-utils';
 
-function withTag(node, type) {
-    return withType(node, DOM[type]);
-}
 var {click, change} = Simulate;
-describe('App', function () {
+describe.only('App', function () {
     this.timeout(50000);
     var b, f, app, select, buttons, options = [];
 
@@ -19,15 +17,16 @@ describe('App', function () {
         f = filename;
     }
 
-    before(function () {
+//    before(function () {
         app = into(<App saveAs={saveAs}/>, true);
         buttons = withTag(app, 'button');
         select = withTag(app, 'select')[0];
         options = withTag(app, 'option');
         options.shift();
-    });
-    options.forEach(function (opt) {
-        const value = opt.value;
+  //  });
+    //Object.keys(samples)
+      ['Loader']  .forEach(function (value) {
+//        const value = opt.value;
         it(`should change the option  ${value}`, function () {
             change(select, {
                 target: {
