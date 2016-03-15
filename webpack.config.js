@@ -27,6 +27,7 @@ var config = {
                 'react': join('node_modules/react'),
                 'react-dom':join('node_modules/react-dom'),
                 'Subschema': join('node_modules/subschema/src'),
+                'subschema-source':join('../subschema/dist'),
                 'subschema-styles': join('node_modules/subschema/src/styles'),
                 'subschema-project': isTestDist ? join('dist/index.js') : join('src/index.js')
             }
