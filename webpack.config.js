@@ -10,6 +10,7 @@ var isPrepublish = lifecycle === 'prepublish' || lifecycle === 'dist' ;
 var isKarma = process.env['NODE_ENV'] === 'test';
 var isTestDist = lifecycle === 'test-dist';
 var isDemo = lifecycle == 'demo';
+var subschema = join('../subschema/src');
 var config = {
         devtool: (isDemo || isPrepublish ? '#source-map' : "#inline-source-map"),
         devServer: {
@@ -26,7 +27,9 @@ var config = {
                 'fbjs': join('node_modules/fbjs'),
                 'react': join('node_modules/react'),
                 'react-dom':join('node_modules/react-dom'),
-                'Subschema': join('node_modules/subschema/src'),
+                'Subschema': subschema,
+                'subschema-test-support':join('../subschema-test-support'),
+                'subschema-test-support-samples':join('../subschema-test-support/samples'),
                 'subschema-source':join('../subschema/dist'),
                 'subschema-styles': join('node_modules/subschema/src/styles'),
                 'subschema-project': isTestDist ? join('dist/index.js') : join('src/index.js')
@@ -55,9 +58,8 @@ var config = {
                         join('src'),
                         join('public'),
                         join('samples'),
-                        join('node_modules/component-playground/src'),
-                        join('node_modules/subschema/src'),
-
+                        subschema,
+                        /subschema-injection/,
                         join('test')
                     ]
                 },

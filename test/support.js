@@ -3,12 +3,10 @@ import React,{Component} from 'react';
 import ReactDOM, {render} from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import samples from 'subschema-test-support/samples';
-import Subschema, {loaderFactory, DefaultLoader, ValueManager, decorators, Form} from 'Subschema';
+import {newSubschemaContext} from 'Subschema';
 import {compile, source} from '../src/compile';
 import expect from 'expect';
 
-var {provide} = decorators;
-var oloader = provide.defaultLoader;
 
 export function execMock(gen) {
     var exports = {};
@@ -23,7 +21,7 @@ export function mockRequire(mod) {
         return ReactDOM;
     }
     if (mod == 'Subschema') {
-        return Subschema;
+        return newSubschemaContext();
     }
     if (window && window[mod]) {
         return window[mod];
@@ -45,16 +43,16 @@ export function renderProject(sample) {
 }
 
 export function renderPage(sample, verify) {
+    const Subschema = newSubschemaContext();
+    const {loader, Form, ValueManager}  = Subschema;
     var ds = setupData(sample),
         src = compile(source(ds.sample)).code,
-        currentLoader = Subschema.loader = provide.defaultLoader = loaderFactory([DefaultLoader]),
         f = new Function(['render', 'React', 'Subschema', 'loader', 'Form', 'ValueManager', 'document'], src);
     var didRender = false;
     f(function (node) {
         didRender = true;
         verify(node);
-        Subschema.loader = provide.defaultLoader = oloader;
-    }, React, Subschema, currentLoader, Form, ValueManager, {
+    }, React, Subschema, loader, Form, ValueManager, {
         getElementById(id){
             expect(id).toBe('content', 'document.getElementById was "content"');
         }
