@@ -6,12 +6,13 @@ var AUTOPREFIXER_LOADER = 'autoprefixer-loader?{browsers:[' +
     '"Explorer >= 8", "iOS >= 6", "Opera >= 12", "Safari >= 6"]}';
 
 var lifecycle = process.env['npm_lifecycle_event'] || '';
-var isPrepublish = lifecycle === 'prepublish' || lifecycle === 'dist' ;
+var isPrepublish = lifecycle === 'prepublish' || lifecycle === 'dist';
 var isKarma = process.env['NODE_ENV'] === 'test';
 var isTestDist = lifecycle === 'test-dist';
 var isDemo = lifecycle == 'demo';
 var config = {
-        devtool: (isDemo || isPrepublish ? '#source-map' : "#inline-source-map"),
+//        devtool: (isDemo || isPrepublish ? '#source-map' : "#inline-source-map"),
+        devtool: "#source-map",
         devServer: {
             noInfo: true,
             hot: true,
@@ -25,9 +26,11 @@ var config = {
             alias: {
                 'fbjs': join('node_modules/fbjs'),
                 'react': join('node_modules/react'),
-                'react-dom':join('node_modules/react-dom'),
-                'Subschema': join('node_modules/subschema/src'),
-                'subschema-styles': join('node_modules/subschema/src/styles'),
+                'react-dom': join('node_modules/react-dom'),
+                'babel-standalone':join('src/shim/babel-standalone'),
+                'subschema-test-support-samples': join('node_modules/subschema-test-support/samples'),
+                'Subschema': join('../subschema/src/index.jsx'),
+                'subschema': join('../subschema/dist/subschema-noreact'),
                 'subschema-project': isTestDist ? join('dist/index.js') : join('src/index.js')
             }
         },
@@ -48,16 +51,15 @@ var config = {
 
                 {
                     test: /\.jsx?$/,
-               //do this to prevent babel from translating everything.
+                    //do this to prevent babel from translating everything.
                     loader: 'babel',
+                    exclude:/dist/,
                     include: [
                         join('src'),
                         join('public'),
-                        join('samples'),
-                        join('node_modules/component-playground/src'),
-                        join('node_modules/subschema/src'),
+                        join('test'),
 
-                        join('test')
+                        /subschema/
                     ]
                 },
                 {
@@ -92,19 +94,18 @@ var config = {
                 ,
                 {
                     test: /\.less$/,
-                    loader: 'style!css!less!' + AUTOPREFIXER_LOADER
+                    loader: 'style!css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!less'
                 }
             ]
 
         },
         externals: (isPrepublish ? [{
             'react': 'React',
-            'react-dom':'ReactDOM',
-            'Subschema': 'Subschema',
-            'subschema': 'Subschema',
-            'subschema-styles':true,
-            'babel-standalone':true
-        }] : null)
+            'react-dom': 'ReactDOM',
+            'babel-standalone-internal':'Babel'
+        }] : {
+            'babel-standalone-internal':'Babel'
+        })
     }
     ;
 
