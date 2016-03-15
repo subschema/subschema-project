@@ -1,1 +1,1 @@
-module.exports = Babel;
+module.exports = window.Babel;

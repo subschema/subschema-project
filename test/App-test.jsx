@@ -6,7 +6,7 @@ import samples from 'subschema-test-support/samples';
 import TestUtils, {scryRenderedComponentsWithType as withType, scryRenderedDOMComponentsWithTag as withTag, Simulate} from 'react-addons-test-utils';
 
 var {click, change} = Simulate;
-describe.only('App', function () {
+describe.skip('App', function () {
     this.timeout(50000);
     var b, f, app, select, buttons, options = [];
 

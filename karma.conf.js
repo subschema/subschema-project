@@ -7,6 +7,7 @@ module.exports = function (config) {
         singleRun: true, //just run once by default
         frameworks: ['mocha'], //use the mocha test framework
         files: [
+            'node_modules/babel-standalone/babel.min.js',
             'test/index.js', //just load this file,
             {
                 pattern: '**/*.js.map',
