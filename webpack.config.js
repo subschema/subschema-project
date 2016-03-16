@@ -10,6 +10,7 @@ var isPrepublish = lifecycle === 'prepublish' || lifecycle === 'dist';
 var isKarma = process.env['NODE_ENV'] === 'test';
 var isTestDist = lifecycle === 'test-dist';
 var isDemo = lifecycle == 'demo';
+var subschema = join('../subschema/src');
 var config = {
 //        devtool: (isDemo || isPrepublish ? '#source-map' : "#inline-source-map"),
         devtool: "#source-map",
@@ -26,11 +27,22 @@ var config = {
             alias: {
                 'fbjs': join('node_modules/fbjs'),
                 'react': join('node_modules/react'),
+<<<<<<< HEAD
                 'react-dom': join('node_modules/react-dom'),
                 'babel-standalone':join('src/shim/babel-standalone'),
                 'subschema-test-support-samples': join('node_modules/subschema-test-support/samples'),
                 'Subschema': join('../subschema/src/index.jsx'),
                 'subschema': join('../subschema/dist/subschema-noreact'),
+=======
+                'React': join('node_modules/react'),
+                './React': join('node_modules/react'),
+                'react-dom':join('node_modules/react-dom'),
+                'Subschema': subschema,
+                'subschema-test-support':join('../subschema-test-support'),
+                'subschema-test-support-samples':join('../subschema-test-support/samples'),
+                'subschema-source':join('../subschema/dist'),
+                'subschema-styles': join('node_modules/subschema/src/styles'),
+>>>>>>> bfaeafe53dff2fe302cd1703a0d7cd554613d1a5
                 'subschema-project': isTestDist ? join('dist/index.js') : join('src/index.js')
             }
         },
@@ -57,9 +69,16 @@ var config = {
                     include: [
                         join('src'),
                         join('public'),
+<<<<<<< HEAD
                         join('test'),
 
                         /subschema/
+=======
+                        join('samples'),
+                        subschema,
+                        /subschema-injection/,
+                        join('test')
+>>>>>>> bfaeafe53dff2fe302cd1703a0d7cd554613d1a5
                     ]
                 },
                 {

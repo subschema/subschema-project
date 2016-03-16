@@ -3,7 +3,11 @@ import React,{Component} from 'react';
 import ReactDOM, {render} from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import samples from 'subschema-test-support/samples';
+<<<<<<< HEAD
 import  {newSubschemaContext} from 'Subschema';
+=======
+import {newSubschemaContext} from 'Subschema';
+>>>>>>> bfaeafe53dff2fe302cd1703a0d7cd554613d1a5
 import {compile, source} from '../src/compile';
 import expect from 'expect';
 
@@ -47,7 +51,11 @@ export function renderProject(sample) {
 
 export function renderPage(sample, verify) {
     const Subschema = newSubschemaContext();
+<<<<<<< HEAD
     const {loader, ValueManager, Form} = Subschema;
+=======
+    const {loader, Form, ValueManager}  = Subschema;
+>>>>>>> bfaeafe53dff2fe302cd1703a0d7cd554613d1a5
     var ds = setupData(sample),
         src = compile(source(ds.sample)).code,
         f = new Function(['render', 'React', 'Subschema', 'loader', 'Form', 'ValueManager', 'document'], src);
