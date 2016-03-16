@@ -3,7 +3,7 @@ import React,{Component} from 'react';
 import ReactDOM, {render} from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import samples from 'subschema-test-support/samples';
-import {newSubschemaContext} from 'Subschema';
+import  {newSubschemaContext} from 'Subschema';
 import {compile, source} from '../src/compile';
 import expect from 'expect';
 
@@ -14,6 +14,9 @@ export function execMock(gen) {
     return exports.default;
 }
 export function mockRequire(mod) {
+    if (mod == 'hello'){
+        return {};
+    }
     if (mod == 'react') {
         return React;
     }

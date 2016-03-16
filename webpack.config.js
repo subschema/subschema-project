@@ -56,7 +56,7 @@ var config = {
                     test: /\.jsx?$/,
                     //do this to prevent babel from translating everything.
                     loader: 'babel',
-                    exclude:/dist/,
+                    exclude: [/dist/, /babylon\/.*/, /babel/],
                     include: [
                         join('src'),
                         join('public'),
@@ -111,9 +111,9 @@ var config = {
         externals: (isPrepublish ? [{
             'react': 'React',
             'react-dom': 'ReactDOM',
-            'babel-standalone-internal':'Babel'
+            'babel-standalone-internal': 'Babel'
         }] : {
-            'babel-standalone-internal':'Babel'
+            'babel-standalone-internal': 'Babel'
         })
     }
     ;

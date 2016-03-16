@@ -1,16 +1,18 @@
 "use strict";
+import gf from './global-fix';
 import React, {Component} from 'react';
-import Subschema, {loader, ValueManager,PropTypes, Form} from 'Subschema';
+import Subschema, {loader, ValueManager,PropTypes,resolvers, Form} from 'Subschema';
 import JSONArea from './JSONArea';
-import samples from 'subschema-test-support/samples';
+import samples from 'subschema-test-support-samples';
 import camelCase from 'lodash/string/camelCase';
 import kebabCase from 'lodash/string/kebabCase';
 import generate from '../src/generate';
 import {saveAs} from 'browser-filesaver';
+import DownloadButton from '../src/components/DownloadButton.jsx';
+import ExportButtons from '../src/components/ExportButtons.jsx';
+resolvers.type.defaultPropTypes.defaultValue = PropTypes.expression;
 
-/*import projectLoader from 'subschema-project';
- loader.addLoader(projectLoader);*/
-loader.addType({JSONArea})
+loader.addType({JSONArea, ExportButtons});
 //A simple Schema for this configuration
 var schema = {
     schema: {
@@ -21,7 +23,13 @@ var schema = {
         },
         jsName: {
             type: "Text",
+            title: 'JavaScript Variable Name',
             help: 'A javascript friendly version of your project name'
+        },
+        userOrOrg: {
+            type: "Text",
+            title:"Username or organization",
+            help: "Username or organization to publish module"
         },
         project: {
             type: 'Object',
@@ -33,7 +41,21 @@ var schema = {
                     },
                     version: {
                         type: 'Text',
-                        help: "NPM pacakge version"
+                        help: "NPM package version"
+                    },
+                    repository: {
+                        type: 'Text',
+                        defaultValue: "https://github.com/{userOrOrg}/{project.name}"
+                    },
+                    "publishConfig": {
+                        type: 'Object',
+                        subSchema: {
+                            "registry": {
+                                type: "Text",
+                                defaultValue: "https://registry.npmjs.org"
+                            }
+
+                        }
                     }
                 }
             }
@@ -46,44 +68,38 @@ var schema = {
                     description: 'Text',
                     schema: 'JSONArea',
                     props: {
-                        type:'JSONArea',
-                        name:'sample_props'
+                        type: 'JSONArea',
+                        name: 'sample_props'
                     },
                     data: 'JSONArea',
                     errors: 'JSONArea',
                     setupTxt: 'TextArea'
                 }
             }
+        },
+        downloadBtn: {
+            type: "ExportButtons",
+            template: false
         }
     },
-    fieldsets: [{
-        fields: ['samples', 'jsName', 'project', 'sample'],
-        buttons: [
-
-            {
-                label: 'Page',
-                className: 'btn',
-                action: 'page'
-            }, {
-                label: 'Project',
-                className: 'btn',
-                action: 'project'
-            }, {
-                label: 'Open Page',
-                className: 'btn',
-                action: 'page-open'
-            }]
+    "template": "WizardTemplate",
+    "fieldsets": [{
+        legend: "Choose a base sample",
+        fields: "samples,userOrOrg"
+    }, {
+        legend: "Project",
+        fields: "project"
+    }, {
+        legend: "Download",
+        fields: "downloadBtn",
+        buttons: [{
+            action: "previous",
+            label: "Previous"
+        }]
     }]
 };
 
 var valueManager = ValueManager({
-    schema: {},
-    title: 'Hello',
-    demo: 'what',
-    jsName: 'uhhu',
-    project: {
-        name: 'hello'
-    },
     samples: 'Basic'
 });
 
@@ -112,32 +128,12 @@ valueManager.addListener('samples', function (value) {
 export default class App extends Component {
     static defaultProps = {
         saveAs: saveAs
-    }
-    handleBtnClick = (e, action)=> {
-        e && e.preventDefault();
-        console.log('action', e.action);
-        var type = action === 'project' ? 'zip-blob' : 'html-blob';
-        var ext = action === 'project' ? 'zip' : 'html';
-        var filename = valueManager.path('project.name');
-        filename = `${filename}.${ext}`;
-
-        var blob = generate(valueManager.getValue(), action == 'project' ? 'project' : 'page', type)
-        if (action === 'page-open') {
-            var url = URL.createObjectURL(blob), other = window.open(url);
-            return;
-        }
-        try {
-            this.props.saveAs(blob, filename);
-        } catch (err) {
-            console.log(err);
-            alert('Error saving ' + err.message);
-        }
     };
 
     render() {
         return <div>
             <h3>Subschema Project Setup</h3>
-            <Form schema={schema} loader={loader} valueManager={valueManager} onButtonClick={this.handleBtnClick}/>
+            <Form schema={schema} loader={loader} valueManager={valueManager}/>
         </div>
     }
 }
