@@ -1,16 +1,16 @@
 "use strict";
 
 var path = require('path'), join = path.join.bind(path, __dirname);
-var AUTOPREFIXER_LOADER = 'autoprefixer-loader?{browsers:[' +
-    '"Android 2.3", "Android >= 4", "Chrome >= 20", "Firefox >= 24", ' +
-    '"Explorer >= 8", "iOS >= 6", "Opera >= 12", "Safari >= 6"]}';
+var autoprefixer = require('autoprefixer');
 
 var lifecycle = process.env['npm_lifecycle_event'] || '';
-var isPrepublish = lifecycle === 'prepublish' || lifecycle === 'dist' ;
+var isPrepublish = lifecycle === 'prepublish' || lifecycle === 'dist';
 var isKarma = process.env['NODE_ENV'] === 'test';
 var isTestDist = lifecycle === 'test-dist';
 var isDemo = lifecycle == 'demo';
 var subschema = join('../subschema/src');
+var cssStr = 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss';
+
 var config = {
         devtool: (isDemo || isPrepublish ? '#source-map' : "#inline-source-map"),
         devServer: {
@@ -28,11 +28,11 @@ var config = {
                 'react': join('node_modules/react'),
                 'React': join('node_modules/react'),
                 './React': join('node_modules/react'),
-                'react-dom':join('node_modules/react-dom'),
+                'react-dom': join('node_modules/react-dom'),
                 'Subschema': subschema,
-                'subschema-test-support':join('../subschema-test-support'),
-                'subschema-test-support-samples':join('../subschema-test-support/samples'),
-                'subschema-source':join('../subschema/dist'),
+                'subschema-test-support': join('../subschema-test-support'),
+                'subschema-test-support-samples': join('../subschema-test-support/samples'),
+                'subschema-source': join('../subschema/dist'),
                 'subschema-styles': join('node_modules/subschema/src/styles'),
                 'subschema-project': isTestDist ? join('dist/index.js') : join('src/index.js')
             }
@@ -54,8 +54,9 @@ var config = {
 
                 {
                     test: /\.jsx?$/,
-               //do this to prevent babel from translating everything.
+                    //do this to prevent babel from translating everything.
                     loader: 'babel',
+                    exclude:/dist/,
                     include: [
                         join('src'),
                         join('public'),
@@ -92,24 +93,28 @@ var config = {
                 ,
                 {
                     test: /\.css$/,
-                    loader: 'style!css!' + AUTOPREFIXER_LOADER
+                    loader: 'style!' + cssStr
                 }
                 ,
                 {
                     test: /\.less$/,
-                    loader: 'style!css!less!' + AUTOPREFIXER_LOADER
+                    loader: 'style!' + cssStr + '!less'
                 }
             ]
 
         },
+        postcss: [autoprefixer({
+            browsers: ["Android 2.3", "Android >= 4",
+                "Chrome >= 20", "Firefox >= 24",
+                "Explorer >= 8", "iOS >= 6", "Opera >= 12", "Safari >= 6"]
+        })],
         externals: (isPrepublish ? [{
             'react': 'React',
-            'react-dom':'ReactDOM',
-            'Subschema': 'Subschema',
-            'subschema': 'Subschema',
-            'subschema-styles':true,
-            'babel-standalone':true
-        }] : null)
+            'react-dom': 'ReactDOM',
+            'babel-standalone-internal':'Babel'
+        }] : {
+            'babel-standalone-internal':'Babel'
+        })
     }
     ;
 
