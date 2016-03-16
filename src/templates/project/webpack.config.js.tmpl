@@ -1,9 +1,8 @@
 "use strict";
 
 var path = require('path'), join = path.join.bind(path, __dirname);
-var AUTOPREFIXER_LOADER = 'autoprefixer-loader?{browsers:[' +
-    '"Android 2.3", "Android >= 4", "Chrome >= 20", "Firefox >= 24", ' +
-    '"Explorer >= 8", "iOS >= 6", "Opera >= 12", "Safari >= 6"]}';
+var cssStr = 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss';
+var autoprefixer = require('autoprefixer');
 
 var lifecycle = process.env['npm_lifecycle_event'];
 var isPrepublish = lifecycle === 'prepublish';
@@ -57,14 +56,21 @@ var config = {
             },
             {
                 test: /\.css$/,
-                loader: 'style!css!' + AUTOPREFIXER_LOADER
+                loader: 'style!css!postcss'
             },
+
             {
                 test: /\.less$/,
-                loader: 'style!css!less!' + AUTOPREFIXER_LOADER
+
+                loader: 'style!'+cssStr+'!less'
             }]
 
     },
+    postcss: [autoprefixer({
+        browsers: ["Android 2.3", "Android >= 4",
+            "Chrome >= 20", "Firefox >= 24",
+            "Explorer >= 8", "iOS >= 6", "Opera >= 12", "Safari >= 6"]
+    })],
     externals: (isPrepublish ? [{
         'react': true,
         'Subschema': true
