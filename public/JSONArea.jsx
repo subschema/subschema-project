@@ -1,6 +1,6 @@
 "use strict";
 import React, {Component} from 'react';
-import {PropTypes} from 'subschema';
+import {PropTypes} from 'Subschema';
 
 
 export default class JSONArea extends Component {
@@ -39,7 +39,7 @@ export default class JSONArea extends Component {
             error = err.message
         }
         this.setState({value, error});
-    }
+    };
 
     render() {
         var {value, onChange, ...props} = this.props;
