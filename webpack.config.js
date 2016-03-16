@@ -26,6 +26,8 @@ var config = {
             alias: {
                 'fbjs': join('node_modules/fbjs'),
                 'react': join('node_modules/react'),
+                'React': join('node_modules/react'),
+                './React': join('node_modules/react'),
                 'react-dom':join('node_modules/react-dom'),
                 'Subschema': subschema,
                 'subschema-test-support':join('../subschema-test-support'),
