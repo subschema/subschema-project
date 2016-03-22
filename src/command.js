@@ -1,10 +1,10 @@
 "use strict";
 
-import samples from '../samples';
-import project from './src/templates/project';
-import path from 'path';
-import fs from 'fs';
-import mkdirp from 'mkdirp';
+import samples from "subschema-test-support-samples";
+import generate from "./generate";
+import fs from "fs";
+import camelCase from "lodash/string/camelCase";
+import kebabCase from "lodash/string/kebabCase";
 
 function help(error) {
     var code = 0;
@@ -18,7 +18,7 @@ Subschema Project Setup
 \v-h\t--help\t\tThis helpful message
 \v-t\t--template\t\tWhat to use as default template (Basic).
 \v-l\t\--list\t\tLists available templates.
-\v\t\t\--force\t\tOverride existing files without asking (dangerous).
+name-of-project
 `);
     process.exit(code);
 }
@@ -35,16 +35,18 @@ function handleArgs(args) {
     if (args.length === 0) {
         return help();
     }
+    var filename = args.pop();
+    if (!filename) {
+        help('need at leat a filename');
+        process.exit(1);
+        return;
+    }
     var sample = samples['Basic'];
-    var wf = safeWriteFile;
     for (var i = 0, l = args.length; i < l; i++) {
         var arg = args[i];
         if (/^-h|--help$/.test(arg)) return help();
         if (/^-l|--list$/.test(arg)) return list();
-        if (/--force$/.test(arg)) {
-            wf = writeFile;
-
-        } else if (/^(-t|--template(=.*)?)$/.test(arg)) {
+        if (/^(-t|--template(=.*)?)$/.test(arg)) {
             var key = arg.split('=', 2)[1] || args[++i];
             sample = samples[key];
             if (!config) {
@@ -55,32 +57,31 @@ function handleArgs(args) {
         }
     }
 
-    project(safeWriteFile, {
-        project: {},
+    writeFile(filename, generate({
+        jsName: camelCase(filename),
+        title: filename,
+        project: {
+            name: kebabCase(filename),
+            description: sample.description,
+            version: '1.0.0'
+        },
+        demo: {},
+        schema: sample.schema,
         sample
-    })
+    }, 'project', 'nodebuffer'))
 
-}
-function _writeFile(fullpath, content, options) {
-    mkdirp.sync(path.dirname(fullpath));
-    fs.writeFileSync(fullpath, content, 'utf-8');
 }
 
 function writeFile(filename, content, options) {
-    _writeFile(path.join(process.cwd(), filename), content, options);
-}
 
-function safeWriteFile(filename, content, options) {
-    var fullpath = path.join(process.cwd(), filename);
-    try {
-        fs.accessSync(fullpath, fs.F_OK)
-        console.warn(`will not overwrite existing file ${fullpath}`);
-        return;
-    }
-    catch (e) {
-        //if the file isn't there, we'll make it
-    }
-    _writeFile(fullpath, content, options);
+    fs.writeFile(filename + ".zip", content, function (err) {
+        if (err) {
+            console.warn('error', err);
+            process.exit(1);
+        }
+        console.log('wrote', filename + '.zip')
+        process.exit(0);
+    });
 
 }
 

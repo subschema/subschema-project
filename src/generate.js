@@ -34,6 +34,7 @@ export default function generate(data, template, type) {
         case 'zip-blob':
         case 'zip-nodebuffer':
         case 'zip':
+        case 'nodebuffer':
         {
             type = type.split('-')[1] || 'base64';
             var zip = new JSZip();

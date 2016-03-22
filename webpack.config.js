@@ -8,6 +8,7 @@ var isPrepublish = lifecycle === 'prepublish' || lifecycle === 'dist';
 var isKarma = process.env['NODE_ENV'] === 'test';
 var isTestDist = lifecycle === 'test-dist';
 var isDemo = lifecycle == 'demo';
+var isCli = /cli/.test(lifecycle);
 var subschema = join('../subschema/src');
 var cssStr = 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss';
 
@@ -90,16 +91,7 @@ var config = {
                     test: /\.json$/,
                     loader: 'json'
                 }
-                ,
-                {
-                    test: /\.css$/,
-                    loader: 'style!' + cssStr
-                }
-                ,
-                {
-                    test: /\.less$/,
-                    loader: 'style!' + cssStr + '!less'
-                }
+
             ]
 
         },
@@ -117,5 +109,27 @@ var config = {
         })
     }
     ;
+if (isCli) {
+    config.module.loaders.push({
+            test: /\.css$/,
+            loader: 'null'
+        }
+        ,
+        {
+            test: /\.less$/,
+            loader: 'null'
+        });
+} else {
+    config.module.loaders.push(
+        {
+            test: /\.css$/,
+            loader: 'style!' + cssStr
+        }
+        ,
+        {
+            test: /\.less$/,
+            loader: 'style!' + cssStr + '!less'
+        });
+}
 
 module.exports = config;
