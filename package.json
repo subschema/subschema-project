@@ -1,6 +1,6 @@
 {
   "name": "subschema-project",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Subschema Project Generator",
   "main": "dist/index.js",
   "dependencies": {
@@ -71,7 +71,6 @@
     "demo": "NODE_ENV=production webpack -p --output-path .build --entry ./public/index.jsx --output-filename=app.[hash].js --config ./webpack.config.js",
     "cli": "NODE_ENV=production webpack --target node --display-modules --output-path bin --entry ./src/command.js --output-filename=project.js --config ./webpack.config.js",
     "dist-project": "NODE_ENV=production webpack --target node --display-modules --output-path dist --entry ./bin/project.js --output-filename=project.js --config ./webpack.config.js",
-
     "dist": "NODE_ENV=production webpack  --display-reasons --display-modules -p --output-path dist --entry ./src/index.js --output-library-target=umd --output-library-name SubschemaProject --output-filename=index.js --config ./webpack.config.js",
     "prepublish": "npm run test && npm run dist"
   },
