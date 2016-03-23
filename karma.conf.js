@@ -1,4 +1,10 @@
-var webpack = require('./webpack.config.js'), path = require('path'), join = path.join.bind(path, __dirname);
+var webpackConfig = require('./webpack.config.js'), webpack = require('webpack');
+
+
+if (!webpackConfig.plugins) {
+    webpackConfig.plugins = [];
+}
+webpackConfig.plugins.unshift(new webpack.DefinePlugin({'process.env.NODE_ENV': '"development"'}));
 
 module.exports = function (config) {
     config.set({
@@ -18,7 +24,7 @@ module.exports = function (config) {
             'test/*': ['webpack', 'sourcemap'] //preprocess with webpack and our sourcemap loader
         },
         reporters: ['dots'], //report results in this format
-        webpack: webpack,
+        webpack: webpackConfig,
         webpackMiddleware: {
             stats: {
                 colors: true
