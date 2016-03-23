@@ -27,9 +27,10 @@ describe('samples', function () {
         });
     });
 
-    describe('project', function () {
+    describe.only('project', function () {
         testEachSample((ds, sample)=> {
             it(`should create "${sample}"`, ()=> {
+
                 var blob = generate(ds, 'project', 'zip-base64');
                 expect(blob).toExist();
 
