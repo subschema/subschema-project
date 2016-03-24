@@ -12,7 +12,7 @@ import React, {Component} from "react";
 import Subschema,{Form, loader, valueManager, loaderFactory} from "Subschema";
 import {render} from "react-dom";
 
-${source(data.sample.schema || data.sample || data.schema, data.useData, data.useError)}
+${source(data.sample || data.schema, data.useData, data.useError)}
     `;
     scripts.compiled = compile(src).code;
     var content = indexTmpl(data);
