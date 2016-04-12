@@ -1,21 +1,15 @@
 "use strict";
 
-import ReactDom from "react-dom";
-import Babel, {availablePlugins, transform} from "babel-standalone";
-import {tutils} from 'Subschema';
-import transformLegacy from "babel-plugin-transform-decorators-legacy";
+import {transform} from "babel-standalone";
+import {tutils} from "Subschema";
+import formTmpl from "./form.tmpl";
 const {each} = tutils;
-availablePlugins['transform-decorators-legacy'] = transformLegacy;
-import formTmpl from './form.tmpl';
 
 const babelrc = {
     "presets": [
         "react",
-        "es2015",
+        "es2015-loose",
         "stage-0"
-    ],
-    "plugins": [
-        "transform-decorators-legacy"
     ]
 };
 
