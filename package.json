@@ -1,6 +1,6 @@
 {
   "name": "subschema-project",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Subschema Project Generator",
   "main": "dist/index.js",
   "dependencies": {
