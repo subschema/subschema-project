@@ -13,9 +13,6 @@ const babelrc = {
         "react",
         "es2015",
         "stage-0"
-    ],
-    "plugins": [
-        "transform-decorators-legacy"
     ]
 };
 
@@ -29,12 +26,12 @@ export function stringify(name, obj) {
 export function source(managed, useData, useError, template = formTmpl) {
     var {schema, setup, setupTxt, props, data, errors} = managed;
     var valProps = {
-        schema: schema,
+        schema: schema.schema,
         value: useData ? data : {},
         errors: useError ? errors : null
-    }
+    };
     props = props || {};
-    schema = schema || {};
+    schema = schema.schema || schema || {};
 
     var propStr = [], vars = [];
 
