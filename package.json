@@ -75,7 +75,7 @@
     "dist-project": "NODE_ENV=production webpack --target node --display-modules --output-path dist --entry ./bin/project.js --output-filename=project.js --config ./webpack.config.js",
     "dist": "NODE_ENV=production webpack  --display-reasons --display-modules --output-path dist --entry ./src/index.js --output-library-target=umd --output-library-name SubschemaProject --output-filename=index.js --config ./webpack.config.js",
     "prepublish": "npm run dist",
-    "preversion": "npm run dist && npm run test",
+    "preversion": "npm run mocha && npm run test",
     "mocha":"npm run dist && mocha test/*-mocha.js"
   },
   "author": "Justin Spears",
