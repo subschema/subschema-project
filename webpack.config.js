@@ -34,7 +34,6 @@ var config = {
                 'subschema-test-support': join('../subschema-test-support'),
                 'subschema-test-support-samples': join('../subschema-test-support/samples'),
                 'subschema-source': join('../subschema/dist'),
-                'subschema-styles': join('node_modules/subschema/src/styles'),
                 'subschema-project': isTestDist ? join('dist/index.js') : join('src/index.js')
             }
         },
