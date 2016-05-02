@@ -1,12 +1,10 @@
-import React from 'react';
-import fixtures from 'subschema-test-support/samples';
-import generate from '../src/generate';
-import {compile, source} from '../src/compile';
-import project from '../src/templates/project/index';
-import expect from 'expect';
-import TestUtils from 'react-addons-test-utils';
-import JSZip from 'jszip';
-import support, {into, renderPage, execMock, testEachSample} from './support';
+import React from "react";
+import generate from "../src/generate";
+import {compile} from "../src/compile";
+import project from "../src/templates/project/index";
+import expect from "expect";
+import JSZip from "jszip";
+import {into, renderPage, execMock, testEachSample} from "./support";
 
 describe('samples', function () {
     this.timeout(50000);
@@ -27,7 +25,7 @@ describe('samples', function () {
         });
     });
 
-    describe('project', function () {
+    describe.only('project', function () {
         testEachSample((ds, sample)=> {
             it(`should create "${sample}"`, ()=> {
 
@@ -49,6 +47,11 @@ describe('samples', function () {
 
                 var Component = execMock(gen);
                 expect(Component).toExist('Component should be returned');
+
+                var pkg = JSON.parse(unzip.file("package.json").asText());
+                expect(pkg.name).toBe('hello');
+                expect(pkg.version).toBe('0.0.1');
+
             });
         });
     });

@@ -1,17 +1,15 @@
 "use strict";
 
-import ReactDom from "react-dom";
-import Babel, {availablePlugins, transform} from "babel-standalone";
-import {tutils} from 'Subschema';
+import {availablePlugins, transform} from "babel-standalone";
+import {tutils} from "Subschema";
 import transformLegacy from "babel-plugin-transform-decorators-legacy";
+import formTmpl from "./form.tmpl";
 const {each} = tutils;
 availablePlugins['transform-decorators-legacy'] = transformLegacy;
-import formTmpl from './form.tmpl';
-
 const babelrc = {
     "presets": [
-        "react",
         "es2015",
+        "react",
         "stage-0"
     ]
 };
@@ -26,7 +24,7 @@ export function stringify(name, obj) {
 export function source(managed, useData, useError, template = formTmpl) {
     var {schema, setup, setupTxt, props, data, errors} = managed;
     var valProps = {
-        schema: schema.schema,
+        schema: schema.fieldsets ? schema : schema.schema,
         value: useData ? data : {},
         errors: useError ? errors : null
     };
