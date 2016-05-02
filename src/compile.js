@@ -24,12 +24,11 @@ export function stringify(name, obj) {
 export function source(managed, useData, useError, template = formTmpl) {
     var {schema, setup, setupTxt, props, data, errors} = managed;
     var valProps = {
-        schema: schema.fieldsets ? schema : schema.schema,
+        schema,
         value: useData ? data : {},
         errors: useError ? errors : null
     };
     props = props || {};
-    schema = schema.schema || schema || {};
 
     var propStr = [], vars = [];
 

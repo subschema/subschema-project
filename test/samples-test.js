@@ -25,7 +25,7 @@ describe('samples', function () {
         });
     });
 
-    describe.only('project', function () {
+    describe('project', function () {
         testEachSample((ds, sample)=> {
             it(`should create "${sample}"`, ()=> {
 
