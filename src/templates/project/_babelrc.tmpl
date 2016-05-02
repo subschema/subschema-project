@@ -1,26 +1,15 @@
 {
   "presets": [
+   "es2015-loose",
     "react",
-    "es2015",
     "stage-0"
   ],
   "env": {
-    "production": {
-      "plugins": [
-        "transform-decorators-legacy"
-      ]
-    },
-    "test": {
-      "plugins": [
-        "transform-decorators-legacy"
-      ]
-    },
     // this plugin will be included only in development mode, e.g.
     // if NODE_ENV (or BABEL_ENV) environment variable is not set
     // or is equal to "development"
     "development": {
       "plugins": [
-        "transform-decorators-legacy",
         // must be an array with options object as second item
         [
           "react-transform",

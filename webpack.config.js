@@ -100,35 +100,34 @@ var config = {
                 "Explorer >= 8", "iOS >= 6", "Opera >= 12", "Safari >= 6"]
         })],
         externals: (isPrepublish ? [{
-            'react': 'React',
-            'react-dom': 'ReactDOM',
-            'babel-standalone-internal': 'Babel'
+            'react': {
+                'var': 'React',
+                'commonjs2': 'react',
+                'commonjs': 'react'
+            },
+            'react-dom': {
+                'var': 'ReactDOM',
+                'commonjs': 'react-dom',
+                'commonjs2': 'react-dom'
+            },
+            'babel-standalone-internal': {
+                'var': 'Babel',
+                'commonjs': 'babel',
+                'commonjs2': 'babel'
+            }
         }] : {
             'babel-standalone-internal': 'Babel'
         })
     }
     ;
-if (isCli) {
-    config.module.loaders.push({
-            test: /\.css$/,
-            loader: 'null'
-        }
-        ,
-        {
-            test: /\.less$/,
-            loader: 'null'
-        });
-} else {
-    config.module.loaders.push(
-        {
-            test: /\.css$/,
-            loader: 'style!' + cssStr
-        }
-        ,
-        {
-            test: /\.less$/,
-            loader: 'style!' + cssStr + '!less'
-        });
-}
+config.module.loaders.push({
+        test: /\.css$/,
+        loader: 'null'
+    }
+    ,
+    {
+        test: /\.less$/,
+        loader: 'null'
+    });
 
 module.exports = config;
