@@ -1,11 +1,9 @@
 "use strict";
 
-import {availablePlugins, transform} from "babel-standalone";
+import {transform} from "babel-standalone";
 import {tutils} from "Subschema";
-import transformLegacy from "babel-plugin-transform-decorators-legacy";
 import formTmpl from "./form.tmpl";
 const {each} = tutils;
-availablePlugins['transform-decorators-legacy'] = transformLegacy;
 const babelrc = {
     "presets": [
         "es2015",
