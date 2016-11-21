@@ -32,9 +32,9 @@ var config = {
                 'react-dom': join('node_modules/react-dom'),
                 'Subschema': subschema,
                 'subschema-test-support': join('../subschema-test-support'),
-                'subschema-test-support-samples': join('../subschema-test-support/samples'),
                 'subschema-source': join('../subschema/dist'),
-                'subschema-project': isTestDist ? join('dist/index.js') : join('src/index.js')
+                'subschema-project': isTestDist ? join('dist/index.js') : join('src/index.js'),
+                'ValueManager':path.join(subschema, 'ValueManager')
             }
         },
         stats: {

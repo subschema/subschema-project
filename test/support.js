@@ -1,8 +1,8 @@
 "use strict";
-import React,{Component} from 'react';
+import React, {Component} from 'react';
 import ReactDOM, {render} from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import samples from 'subschema-test-support/samples';
+import samples from 'subschema-test-samples';
 import  {newSubschemaContext} from 'Subschema';
 import {compile, source} from '../src/compile';
 import expect from 'expect';
@@ -14,7 +14,7 @@ export function execMock(gen) {
     return exports.default;
 }
 export function mockRequire(mod) {
-    if (mod == 'hello'){
+    if (mod == 'hello') {
         return {};
     }
     if (mod == 'react') {
@@ -64,6 +64,7 @@ export function renderPage(sample, verify) {
 }
 
 export function testEachSample(fn, samplesKeys = Object.keys(samples)) {
+    samplesKeys = Array.isArray(samplesKeys) ? samplesKeys : samplesKeys == null ? [] : [samplesKeys];
     samplesKeys.forEach(function (sample) {
         fn(setupData(samples[sample]), sample);
     });

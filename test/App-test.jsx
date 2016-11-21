@@ -2,7 +2,6 @@ import React, {DOM} from 'react';
 import App from '../public/App.jsx';
 import expect from 'expect';
 import support, {into} from './support';
-import samples from 'subschema-test-support/samples';
 import TestUtils, {scryRenderedComponentsWithType as withType, scryRenderedDOMComponentsWithTag as withTag, Simulate} from 'react-addons-test-utils';
 
 var {click, change} = Simulate;

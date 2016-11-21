@@ -1,7 +1,7 @@
 "use strict";
 
 var expect = require('expect');
-var fix = require('subschema-test-support/samples').Basic;
+var fix = require('subschema-test-samples').Basic;
 var fs = require('fs');
 var temp = require('temp');
 var path = require('path');

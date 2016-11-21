@@ -1,6 +1,6 @@
 import expect from 'expect';
 import {compile, source} from  '../src/compile';
-import fixtures from 'subschema-test-support/samples';
+import fixtures from 'subschema-test-samples';
 
 describe('compile', function () {
     Object.keys(fixtures).forEach((key)=> {

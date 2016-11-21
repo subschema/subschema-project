@@ -1,14 +1,11 @@
 "use strict";
-import gf from './global-fix';
+import  './global-fix';
 import React, {Component} from 'react';
 import Subschema, {loader, ValueManager,PropTypes,resolvers, Form} from 'Subschema';
 import JSONArea from './JSONArea';
-import samples from 'subschema-test-support-samples';
-import camelCase from 'lodash/string/camelCase';
+import samples from 'subschema-test-samples';
 import kebabCase from 'lodash/string/kebabCase';
-import generate from '../src/generate';
 import {saveAs} from 'browser-filesaver';
-import DownloadButton from '../src/components/DownloadButton.jsx';
 import ExportButtons from '../src/components/ExportButtons.jsx';
 resolvers.type.defaultPropTypes.defaultValue = PropTypes.expression;
 

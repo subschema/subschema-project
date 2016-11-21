@@ -15,8 +15,6 @@ import {render} from "react-dom";
 
 ${source(data.sample, data.useData, data.useError)}
 
-${data.sample.setupTxt}
-
     `;
     scripts.compiled = compile(src).code;
     var content = indexTmpl(data);

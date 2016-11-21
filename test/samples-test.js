@@ -9,7 +9,7 @@ import {into, renderPage, execMock, testEachSample} from "./support";
 describe('samples', function () {
     this.timeout(50000);
 
-    describe('page', function () {
+    describe('samples/page', function () {
         testEachSample((ds, sample)=> {
             it(`should render "${sample}"`, ()=> {
                 var blob = generate(ds, 'page', 'string');
@@ -25,7 +25,7 @@ describe('samples', function () {
         });
     });
 
-    describe('project', function () {
+    describe('samples/project', function () {
         testEachSample((ds, sample)=> {
             it(`should create "${sample}"`, ()=> {
 
